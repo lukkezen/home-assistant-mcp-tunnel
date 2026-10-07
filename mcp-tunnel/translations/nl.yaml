@@ -1,0 +1,44 @@
+configuration:
+  tunnels:
+    name: Tunnels
+    description: MCP-tunnels die door deze add-on worden beheerd
+    fields:
+      name:
+        name: Naam
+        description: Herkenbare naam voor deze tunnel
+      enabled:
+        name: Ingeschakeld
+        description: Start deze tunnel
+      provider:
+        name: Provider
+        description: Tunnelprovider; momenteel OpenAI
+      tunnel_id:
+        name: Tunnel-ID
+        description: OpenAI tunnel-ID
+      runtime_api_key:
+        name: Runtime API-key
+        description: OpenAI Runtime API Key voor deze tunnel
+      mcp_server_url:
+        name: MCP-server-URL
+        description: Streamable HTTP MCP-endpoint
+      mcp_auth_type:
+        name: MCP-authenticatie
+        description: Kies Bearer-token, API-keyheader of geen authenticatie
+      mcp_api_key:
+        name: MCP API-key / token
+        description: Geheime sleutel voor authenticatie bij de MCP-server
+      mcp_api_key_header:
+        name: API-keyheader
+        description: Headernaam bij API-keyauthenticatie, bijvoorbeeld X-API-Key
+      custom_headers:
+        name: Extra headers
+        description: Optionele extra statische MCP-headers
+      discovery_headers:
+        name: Discovery-headers
+        description: Optionele aparte headers voor MCP-discovery
+      mcp_headers:
+        name: Legacy headers
+        description: Oude ruwe MCP-headers; alleen behouden voor migratie
+      log_level:
+        name: Logniveau
+        description: Hoe uitgebreid de tunnel logt

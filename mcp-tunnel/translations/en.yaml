@@ -1,0 +1,44 @@
+configuration:
+  tunnels:
+    name: Tunnels
+    description: MCP tunnels managed by this add-on
+    fields:
+      name:
+        name: Name
+        description: Friendly name for this tunnel
+      enabled:
+        name: Enabled
+        description: Start this tunnel
+      provider:
+        name: Provider
+        description: Tunnel provider; currently OpenAI
+      tunnel_id:
+        name: Tunnel ID
+        description: OpenAI tunnel ID
+      runtime_api_key:
+        name: Runtime API key
+        description: OpenAI Runtime API Key for this tunnel
+      mcp_server_url:
+        name: MCP server URL
+        description: Streamable HTTP MCP endpoint
+      mcp_auth_type:
+        name: MCP authentication
+        description: Choose Bearer token, API key header, or no authentication
+      mcp_api_key:
+        name: MCP API key / token
+        description: Secret used to authenticate to the MCP server
+      mcp_api_key_header:
+        name: API key header
+        description: Header name when using API key authentication, for example X-API-Key
+      custom_headers:
+        name: Extra headers
+        description: Optional additional static MCP headers
+      discovery_headers:
+        name: Discovery headers
+        description: Optional separate headers for MCP discovery
+      mcp_headers:
+        name: Legacy headers
+        description: Legacy raw MCP headers; retained for migration only
+      log_level:
+        name: Log level
+        description: Tunnel log verbosity

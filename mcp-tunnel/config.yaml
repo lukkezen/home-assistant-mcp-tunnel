@@ -1,0 +1,28 @@
+name: MCP Tunnel Manager
+version: "0.1.4"
+slug: mcp_tunnel_manager
+description: Manage multiple MCP tunnels from Home Assistant
+url: https://github.com/lukkezen/home-assistant-mcp-tunnel
+startup: application
+boot: auto
+init: false
+arch:
+  - amd64
+  - aarch64
+options:
+  tunnels: []
+schema:
+  tunnels:
+    - name: str
+      enabled: bool
+      provider: "list(openai)"
+      tunnel_id: str
+      runtime_api_key: password
+      mcp_server_url: url
+      mcp_auth_type: "list(bearer|api_key|none)?"
+      mcp_api_key: password?
+      mcp_api_key_header: str?
+      custom_headers: str?
+      discovery_headers: str?
+      mcp_headers: str?
+      log_level: "list(debug|info|warn)"
