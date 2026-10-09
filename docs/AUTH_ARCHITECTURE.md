@@ -29,3 +29,25 @@ Never expose a credential-free file-processing endpoint to arbitrary callers mer
 - Introduce explicit opt-in settings and migration documentation, then ship behind a new release.
 
 No authentication implementation is included in this proposal.
+
+## Verified upstream capabilities (2026-10-09)
+Current add-on Dockerfile pins `ghcr.io/openai/tunnel-client:v0.0.16`. Official tunnel-client documentation describes support for:
+- Forwarding inbound Authorization to the MCP origin.
+- Forwarding OAuth Protected Resource Metadata discovery and rewriting resource URLs to the tunnel-service URL.
+- Discovering an upstream authorization server from PRMD and supporting token/registration/revocation shim routes where configured.
+- **Not** exposing the browser-facing authorization endpoint automatically; it remains a direct browser-to-IdP URL.
+
+References:
+- https://github.com/openai/tunnel-client/blob/master/docs/configuration.md
+- https://github.com/openai/tunnel-client/blob/master/docs/architecture.md
+- https://github.com/openai/tunnel-client/blob/master/docs/onboarding.md
+
+Implications:
+1. Passthrough is already supported by the upstream tunnel client for a properly OAuth-protected MCP. No new passthrough code is justified yet.
+2. A local upstream with `mcp_auth_type: none` is not made user-authenticated by the runtime API key. This key only authenticates the tunnel process to the OpenAI control plane.
+3. Gateway mode requires an actual OAuth-protected resource endpoint or sidecar and an authorization server/IdP with a browser-reachable authorization endpoint. A static bearer header is not a substitute for user identity.
+4. Before enabling gateway mode, prove that every MCP request (including discovery, streaming and sessions) is validated and that upstream bypass is blocked.
+5. Existing add-on settings must remain backwards compatible. Avoid presenting an unimplemented mode in the Home Assistant configuration.
+
+## Next implementation milestone
+Build a separately testable OAuth resource-server gateway, with an external IdP and explicit allowlisted principals, only after selecting a supported provider and verifying its metadata endpoints. Integration into the manager can then be an opt-in per-tunnel local upstream URL. No secrets or insecure defaults should be committed.
