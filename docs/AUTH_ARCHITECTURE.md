@@ -62,3 +62,12 @@ Build a separately testable OAuth resource-server gateway, with an external IdP 
 - Threat-model direct origin access, forwarded headers, token replay, open redirects, oversized requests and file path traversal.
 - Roll out to File Extractor first with a deny-by-default policy; only then consider other MCPs.
 - Example domain auth.lukkezen.name is illustrative; no DNS, tunnel or provider configuration has been performed.
+
+## Pocket ID pilot (2026-10-09)
+Verified community HAOS app: https://github.com/einschmidt/hassio-addons/tree/main/pocket-id
+- App version at inspection: 1.4.7; amd64 and aarch64; port 1411; persistent /app/data.
+- APP_URL must be public HTTPS. Prefer TRUST_PROXY_LIST restricted to the exact ingress proxy IP/CIDR; do not blindly enable TRUST_PROXY.
+- Run as an independent Home Assistant app. Do not expose HA UI, MCP backends or data directory.
+- Before installation, confirm a safe HTTPS ingress and backup/storage location. Before connector enablement, verify Pocket ID OIDC discovery, client type, authorization-code PKCE, redirect URI support, and OpenAI connector registration compatibility.
+- Pocket ID is an identity provider, not an MCP authorization gateway. Gateway still needs audience/issuer/scope/user validation and protected resource metadata.
+- Existing tunnels remain unchanged. First pilot only on File Extractor, with negative authorization tests.
