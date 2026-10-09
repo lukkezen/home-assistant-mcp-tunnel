@@ -51,3 +51,14 @@ Implications:
 
 ## Next implementation milestone
 Build a separately testable OAuth resource-server gateway, with an external IdP and explicit allowlisted principals, only after selecting a supported provider and verifying its metadata endpoints. Integration into the manager can then be an opt-in per-tunnel local upstream URL. No secrets or insecure defaults should be committed.
+
+## Proposed Authentik deployment (design, not deployed)
+- Run Authentik and its persistent PostgreSQL database as a separately maintained service, not inside the existing Bash tunnel manager.
+- Expose only Authentik's HTTPS authorization/OIDC endpoints via a controlled public ingress (e.g. Cloudflare Tunnel and a dedicated auth subdomain). Do not expose the Home Assistant UI, MCP origins or database.
+- Require MFA and restrict the OAuth application to an explicit user/group allowlist.
+- Implement an opt-in generic OAuth resource-server gateway before the local MCP origin; validate issuer, audience/resource, signature/JWKS, expiry, scopes and user identity on every call. Handle OAuth protected-resource metadata, 401 challenges, streaming and session continuity.
+- Keep the existing upstream authentication settings separate. Current Postgram/Todo tunnels must remain unchanged until independently tested.
+- Use Authorization Code + PKCE for interactive login. Confirm Authentik's OAuth client-registration capabilities against ChatGPT's current connector requirements before selecting registration strategy; do not assume dynamic client registration works.
+- Threat-model direct origin access, forwarded headers, token replay, open redirects, oversized requests and file path traversal.
+- Roll out to File Extractor first with a deny-by-default policy; only then consider other MCPs.
+- Example domain auth.lukkezen.name is illustrative; no DNS, tunnel or provider configuration has been performed.
